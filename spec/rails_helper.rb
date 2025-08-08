@@ -1,3 +1,20 @@
+require 'simplecov'
+require 'simplecov-lcov'
+
+SimpleCov::Formatter::LcovFormatter.config do |config|
+  config.report_with_single_file = true
+  config.single_report_path = 'coverage/lcov.info'
+end
+
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::LcovFormatter
+])
+
+SimpleCov.start 'rails' do
+  minimum_coverage 95
+end
+
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
@@ -7,7 +24,7 @@ require 'devise'
 require 'factory_bot_rails'
 require 'shoulda/matchers'
 require 'database_cleaner/active_record'
-require Rails.root.join('lib/system/role_seeder')
+require Rails.root.join('lib/system/role_seeder').to_s
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -33,9 +50,9 @@ end
 
 RSpec.configure do |config|
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
     System::RoleSeeder.seed
+    DatabaseCleaner.strategy = :transaction
   end
 
   config.around(:each) do |example|
@@ -44,7 +61,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
 

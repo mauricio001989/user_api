@@ -18,8 +18,13 @@ development:
     migrations_paths: db/cable_migrate
 
 test:
-  <<: *default
-  database: user_api_test
+  primary:
+    <<: *default
+    database: user_api_test
+  queue:
+    <<: *default
+    database: user_api_queue_test
+    migrations_paths: db/cable_migrate
 
 production:
   primary:
@@ -29,5 +34,5 @@ production:
     password: <%= ENV["POSTGRES_PASSWORD"] %>
   queue:
     <<: *default
-    database: user_api_queue_development
+    database: user_api_queue_production
     migrations_paths: db/queue_migrate

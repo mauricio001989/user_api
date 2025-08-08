@@ -49,8 +49,11 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'fuubar'
   gem 'letter_opener'
   gem 'rspec-rails'
   gem 'rubocop-rails-omakase', require: false
   gem 'shoulda-matchers'
+  gem 'simplecov', require: false
+  gem 'simplecov-lcov', require: false
 end
