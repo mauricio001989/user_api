@@ -79,8 +79,8 @@ jobs:
       - name: Run tests with RSpec
         run: bundle exec rspec
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v3
         with:
-          name: coverage-report
-          path: coverage/
+          files: coverage/lcov.info
+          fail_ci_if_error: true

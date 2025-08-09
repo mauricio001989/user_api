@@ -1,4 +1,11 @@
 require 'simplecov'
+require 'simplecov-lcov'
+SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::LcovFormatter
+])
+
 SimpleCov.start 'rails' do
   minimum_coverage 75
   # minimum_coverage_by_file 75
