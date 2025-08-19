@@ -8,7 +8,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :validatable
   validates :email, presence: true, uniqueness: { case_sensitive: false, scope: :provider }, format: { with: URI::MailTo::EMAIL_REGEXP }
 
-  has_many :user_roles
+  has_many :user_roles, dependent: :delete_all
   has_many :roles, through: :user_roles
 
   private

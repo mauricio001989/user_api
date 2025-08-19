@@ -10,6 +10,9 @@
 # Ignore all environment files.
 /.env*
 
+# ignote all coverage tempfiles.
+/coverage/*
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*

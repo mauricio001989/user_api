@@ -46,15 +46,15 @@ gem 'thruster', require: false
 # gem "rack-cors"
 
 group :development, :test do
+  gem 'brakeman', require: false
+  gem 'byebug'
+  gem 'database_cleaner-active_record'
+  gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
   gem 'dotenv-rails'
-  gem 'rspec-rails'
-  gem 'shoulda-matchers'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
-  gem 'byebug'
-  gem 'brakeman', require: false
-  gem 'rubocop-rails-omakase', require: false
-  gem 'database_cleaner-active_record'
   gem 'letter_opener'
+  gem 'rspec-rails'
+  gem 'rubocop-rails-omakase', require: false
+  gem 'shoulda-matchers'
 end
