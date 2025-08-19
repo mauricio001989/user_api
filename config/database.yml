@@ -9,15 +9,25 @@ default: &default
   port: <%= ENV.fetch("POSTGRESQL_PORT") { "5432" } %>
 
 development:
-  <<: *default
-  database: user_api_development
+  primary:
+    <<: *default
+    database: user_api_development
+  queue:
+    <<: *default
+    database: user_api_queue_development
+    migrations_paths: db/cable_migrate
 
 test:
   <<: *default
   database: user_api_test
 
 production:
-  <<: *default
-  database: user_api_production
-  username: <%= ENV["POSTGRES_USER"] %>
-  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  primary:
+    <<: *default
+    database: user_api_production
+    username: <%= ENV["POSTGRES_USER"] %>
+    password: <%= ENV["POSTGRES_PASSWORD"] %>
+  queue:
+    <<: *default
+    database: user_api_queue_development
+    migrations_paths: db/queue_migrate
