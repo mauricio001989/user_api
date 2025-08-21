@@ -47,6 +47,7 @@ gem 'thruster', require: false
 
 group :development, :test do
   gem 'brakeman', require: false
+  gem 'bullet'
   gem 'byebug'
   gem 'database_cleaner-active_record'
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
