@@ -4,8 +4,9 @@ module Api
       before_action :authenticate_user!
 
       def index
-        @users = User.all
-        render json: @users
+        users = User.includes(:roles)
+
+        render json: users
       end
 
       def show
