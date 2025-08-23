@@ -1,0 +1,29 @@
+name: Sync development to master on bump merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - development
+
+jobs:
+  sync-to-master:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'bump')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "actions@github.com"
+
+      - name: Merge development into master
+        run: |
+          git fetch origin
+          git checkout master
+          git merge origin/development --no-ff -m "Auto sync: ${{ github.event.pull_request.title }}"
+          git push origin master

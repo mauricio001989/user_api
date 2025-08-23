@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Public: Generate the bump branch, number and commit.
+#
+# The script proposes a dynamic and automatic way to create a bump version commit in a projects.
+#
+# Step 1: run in the bash `bin/bump`
+#
+#   Usage: bin/bump [major|minor|patch]
+#
+#   Example: bin/bump major
+#
+# Step 2: A new branch is generated with a name according to convention.
+#
+# Step 3: VERSION file is modified.
+#
+# Step 4: And a commit with a name according to convention is added and created.
+#
+version_file_path = File.expand_path('../VERSION', __dir__)
+version = File.read(version_file_path).strip
+
+major, minor, patch = version.split('.').map(&:to_i)
+
+increment_type = ARGV.fetch(0, 'minor').to_sym
+
+increment_values = {
+  major: [1, 0, 0],
+  minor: [0, 1, 0],
+  patch: [0, 0, 1]
+}
+
+unless increment_values.key?(increment_type)
+  puts 'Usage: bin/bump [major|minor|patch]'
+  exit
+end
+
+major_increment, minor_increment, patch_increment = increment_values[increment_type]
+major += major_increment
+minor += minor_increment
+patch += patch_increment
+
+if increment_type == :major
+  minor = patch = 0
+elsif increment_type == :minor
+  patch = 0
+end
+
+new_version = "#{major}.#{minor}.#{patch}"
+File.write(version_file_path, "#{ new_version}\n")
+
+commit_message = `git log -1 --pretty=%B`
+ticket_code = commit_message.match(/([A-Z]+-\d+)/)&.[](0)
+
+branch_name = "release/version-#{new_version}"
+commit_message_with_ticket = "🔖 #{ticket_code}: Bump version to #{new_version}"
+
+`git checkout -b #{branch_name}`
+`git add VERSION`
+`git commit -S -m "#{commit_message_with_ticket}"`
