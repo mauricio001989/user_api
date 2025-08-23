@@ -6,8 +6,8 @@ class CleanupUnconfirmedUsersJob < ApplicationJob
     # - You can adjust the `1.day.ago` to any desired time range for example '1.minute.ago'.
     # For manual execution:
     # - 'bin/rails runner CleanupUnconfirmedUsersJob.perform_now'
-    # For background execution: This job is triggered by config/recurring.yml every day and you can change (schedule: every 1 minute).
-    # - 'bin/jobs start'
+    # For background execution: This job is triggered by config/recurring.yml.
+    # - 'bin/jobs'
     # Logs available in:
     # - log/development.log
     # References:
