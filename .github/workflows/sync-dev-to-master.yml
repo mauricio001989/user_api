@@ -1,0 +1,33 @@
+name: Sync development to main on bump merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - development
+
+jobs:
+  sync-to-main:
+    if: >
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.title, 'Bump version')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Merge development into main
+        run: |
+          git fetch origin
+          git checkout main
+          git merge origin/development --no-ff -m "Auto sync: ${{ github.event.pull_request.title }}"
+          git push origin main

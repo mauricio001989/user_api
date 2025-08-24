@@ -40,14 +40,17 @@ module UserApi
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-    # Configure Active Job to use Sidekiq
-    config.active_job.queue_adapter = :sidekiq
-    # TODO: validating solid_queue
-    # config.active_job.queue_adapter = :solid_queue
+
+    config.active_job.queue_adapter = :solid_queue
+    config.solid_queue.connects_to = { database: { writing: :queue } }
 
     # session settings for API # TODO: check if this is needed
     config.session_store :cookie_store, key: '_interslice_session'
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options
+
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+    end
   end
 end

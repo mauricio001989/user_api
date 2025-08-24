@@ -1,8 +1,8 @@
 class CreateUserRoles < ActiveRecord::Migration[8.0]
   def change
-    create_table :user_roles do |t|
-      t.references :role, foreign_key: { on_delete: :cascade }
-      t.references :user, foreign_key: { on_delete: :cascade }
+    create_table :user_roles, id: :uuid do |t|
+      t.references :role, type: :uuid, foreign_key: { on_delete: :cascade }
+      t.references :user, type: :uuid, foreign_key: { on_delete: :cascade }
 
       t.timestamps
     end
