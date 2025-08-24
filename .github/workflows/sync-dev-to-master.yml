@@ -8,18 +8,22 @@ on:
 
 jobs:
   sync-to-master:
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'bump')
+    if: >
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.title, 'Bump version')
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Git
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "actions@github.com"
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Merge development into master
         run: |

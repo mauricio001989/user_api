@@ -57,4 +57,5 @@ commit_message_with_ticket = "🔖 #{ticket_code}: Bump version to #{new_version
 
 `git checkout -b #{branch_name}`
 `git add VERSION`
-`git commit -S -m "#{commit_message_with_ticket}"`
+`git commit -m "#{commit_message_with_ticket}"`
+#`git commit -S -m "#{commit_message_with_ticket}"`
