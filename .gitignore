@@ -44,3 +44,4 @@
 
 # Ignore rspec artifacts
 /spec/examples.txt
+coverage
